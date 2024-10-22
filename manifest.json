@@ -1,0 +1,66 @@
+{
+  "manifest_version": 3,
+  "name": "IntellPro Chrome Extension",
+  "description": "Uploads content to Intellpro.",
+  "version": "1.2",
+  "action": {
+    "default_icon": "intellpro-logo-small.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "match_about_blank": true,
+      "matches": ["<all_urls>"],
+      "match_origin_as_fallback": true,
+      "run_at": "document_start",
+      "js": [
+        "lib/chrome-browser-polyfill.js",
+        "lib/single-file-frames.js",
+        "lib/single-file-extension-frames.js"
+      ]
+    },
+    {
+      "all_frames": true,
+      "matches": [
+        "<all_urls>"
+      ],
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "run_at": "document_start",
+      "world": "MAIN",
+      "js": [
+        "lib/single-file-hooks-frames.js"
+      ]
+    },
+    {
+      "matches": ["<all_urls>"],
+      "run_at": "document_start",
+      "js": [
+        "lib/chrome-browser-polyfill.js",
+        "lib/single-file-bootstrap.js",
+        "lib/single-file-extension-core.js",
+        "lib/single-file.js",
+        "lib/single-file-script.js"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "http://localhost:3050/",
+    "https://workspace.dev.env.intellpro.com/",
+    "https://workspace.staging.env.intellpro.com/",
+    "https://app.intellpro.com/"
+  ],
+  "permissions": ["activeTab", "scripting"],
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": [
+        "cross.png",
+        "intellpro-logo-small.png",
+        "lib/single-file-hooks-frames.js"
+      ]    }
+  ]
+}
